@@ -5,6 +5,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase/firebaseConfig";
 import EditableDropDown from "./EditableDropDown";
 import DigitalSignature from "./DigitalSignature";
+import { ScrollView } from "react-native-virtualized-view";
 
 interface ListItem {
   id: number;
@@ -79,7 +80,7 @@ export default function HouseInvoiceList({ navigation }) {
         <HouseInvoiceItem
           text={item.name}
           quantity={item.quantity}
-          isChecked={item.status === 'completed'}
+          isChecked={isChecked}
           onCheckBoxPress={(isChecked) => handleCheckBoxPress(item.id, isChecked)
           }
         />
@@ -88,6 +89,7 @@ export default function HouseInvoiceList({ navigation }) {
   };
 
   return (
+    <ScrollView>
     <View style={styles.container}>
       <View style={styles.items}>
       <View style={styles.itemInfo}>
@@ -117,6 +119,7 @@ export default function HouseInvoiceList({ navigation }) {
       {signatureData ? <Text>{signatureData}</Text> : null}
       </View>
     </View>
+    </ScrollView>
   );
 }
 

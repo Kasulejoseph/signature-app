@@ -3,17 +3,26 @@ import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 
 type HouseAddressItemProps = {
   text: string;
+  status: string;
   onPress: () => void;
 };
 
-const HouseAddressItem = ({ text, onPress }: HouseAddressItemProps) => {
+const HouseAddressItem = ({ text, status, onPress }: HouseAddressItemProps) => {
+  const bgcolor =
+    status == "pending"
+      ? { backgroundColor: "#FFF" }
+      : { backgroundColor: "#E4E9F2" };
   return (
     <TouchableOpacity onPress={onPress}>
-      <View style={styles.container}>
+      <View style={[styles.container, bgcolor]}>
         <Text style={styles.text}>{text}</Text>
         <Image
           style={styles.image}
-          source={require("../../assets/icons8-autograph-50.png")}
+          source={
+            status == "pending"
+              ? require("../../assets/icons8-autograph-50.png")
+              : require("../../assets/icons8-done-30.png")
+          }
         />
       </View>
     </TouchableOpacity>
