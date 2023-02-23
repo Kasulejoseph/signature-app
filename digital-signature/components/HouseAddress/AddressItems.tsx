@@ -3,6 +3,9 @@ import { StyleSheet, Text, View } from "react-native";
 import HouseAddressItem from "./HouseAddressItem";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase/firebaseConfig";
+import Icon from 'react-native-vector-icons/FontAwesome';
+import moment from 'moment';
+
 
 interface ListItem {
   id: number;
@@ -17,7 +20,7 @@ interface ListItem {
 
 const AddressItems = ({ navigation }) => {
   const [routes, setRoutes] = useState<ListItem[]>([]);
-  
+
   const fetchRoutes = async () => {
     let tempDoc = [];
     const querySnapshot = await getDocs(collection(db, "routes"));
@@ -31,19 +34,25 @@ const AddressItems = ({ navigation }) => {
     fetchRoutes();
   }, []);
 
-  const handlePress = (id: string) => {
+  const handlePress = (id: string, receivers_group_id: string) => {
     console.log(`Item ${id} pressed!`);
-    navigation.navigate("Invoices", { items_group_id: id });
+    navigation.navigate("Invoices", { items_group_id: id, receivers_group_id });
   };
   return (
     <View style={styles.container}>
-      <Text></Text>
+      <View style={styles.dateContainer}>
+      <Text>Invoices to Sign Today</Text>
+      <View style={styles.iconContainer}>
+        <Icon name='book' size={20} color="#f4511e"  />
+        <Text style={styles.buttonText}>{moment().format('MMM D')}</Text>
+      </View>
+      </View>
       <View style={styles.houseAddress}>
         {routes.map((item: ListItem) => (
           <HouseAddressItem
             key={item.id}
             text={item.address}
-            onPress={() => handlePress(item.items_group_id)}
+            onPress={() => handlePress(item.items_group_id, item.receivers_group_id)}
           />
         ))}
       </View>
@@ -55,12 +64,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#F1F5F9",
-    marginTop: 100,
-    // alignItems: 'center',
-    // justifyContent: 'center',
+    padding: 10
+  },
+  dateContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   houseAddress: {
     margin: 15,
+  },
+  iconContainer: {
+    marginRight: 10,
+    justifyContent: 'flex-end',
+    flexDirection: 'row'
+    
+  },
+  buttonText: {
+    // color: '#fff',
+    fontSize: 16,
+    marginLeft: 5
   },
 });
 
