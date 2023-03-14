@@ -58,6 +58,7 @@ export default function HouseInvoiceList({ navigation }) {
   
   useEffect(() => {
     filterItemsByGroupId();
+    
     filterUsersByGroupId();
   }, []);
 

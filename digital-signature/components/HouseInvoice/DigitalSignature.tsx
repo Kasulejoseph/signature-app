@@ -9,7 +9,7 @@ export default function DigitalSignature({onSignatureCaptured}) {
 
   const handleCapture = (signature) => {
     if (signatureRef.current) {
-        console.log("+++*((())))))", signatureRef.current.getData());
+        console.log("+++*((())))))", signatureRef.current);
         
     //   signatureRef.current.saveImage();
     onSignatureCaptured(signature)
